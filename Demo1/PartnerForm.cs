@@ -22,7 +22,6 @@ namespace Demo1
             {
                 connection.Open();
 
-                // SQL-запрос для получения типов партнеров
                 using (var command = new NpgsqlCommand("SELECT master_floor.partner_type.partner_type FROM master_floor.partner_type", connection))
                 {
                     using (var reader = command.ExecuteReader())
@@ -31,10 +30,10 @@ namespace Demo1
 
                         while (reader.Read())
                         {
-                            partnerTypes.Add(reader.GetString(0)); // Получаем значение partner_type
+                            partnerTypes.Add(reader.GetString(0)); 
                         }
 
-                        // Заполняем ComboBox
+                       
                         partnerNameComboBox.DataSource = partnerTypes;
                     }
                 }
@@ -48,22 +47,21 @@ namespace Demo1
                 var command = new NpgsqlCommand("SELECT partner_type_id FROM master_floor.partner_type WHERE partner_type = @partner_type", connection);
                 command.Parameters.AddWithValue("partner_type", partnerType);
 
-                // Выполняем запрос и получаем partner_type_id
                 var result = command.ExecuteScalar();
-                return result != null ? Convert.ToInt32(result) : -1; // Возвращаем -1, если не найдено
+                return result != null ? Convert.ToInt32(result) : -1;
             }
         }
 
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            string partnerType = partnerNameComboBox.SelectedItem.ToString(); // Получаем выбранный тип партнера
-            int partnerTypeId = GetPartnerTypeId(partnerType); // Получаем partner_type_id
+            string partnerType = partnerNameComboBox.SelectedItem.ToString(); 
+            int partnerTypeId = GetPartnerTypeId(partnerType); 
 
             if (partnerTypeId == -1)
             {
                 MessageBox.Show("Выбранный тип партнера не найден.");
-                return; // Выход, если тип партнера не найден
+                return; 
             }
 
             string companyName = companyNameTextBox.Text;
@@ -73,13 +71,13 @@ namespace Demo1
             string phoneNumber = phoneNumberTextBox.Text;
             string companyEmail = companyEmailTextBox.Text;
             string companyRatingText = companyRatingTextBox.Text;
-            string companyLogo = companyINNTextBox.Text; // Убедитесь, что это правильное значение
-                                                         // Преобразуем companyRatingText в int
+            string companyLogo = companyINNTextBox.Text; 
+            
             int companyRating;
                 if (!int.TryParse(companyRatingText, out companyRating))
                 {
                 MessageBox.Show("Рейтинг компании должен быть целым числом.");
-                return; // Выход, если преобразование не удалось
+                return; 
                 }
 
 
@@ -88,15 +86,14 @@ namespace Demo1
                 connection.Open();
                 var command = new NpgsqlCommand("INSERT INTO master_floor.partner (partner_type, company_name, company_address, \"company_INN\", director_name, phone_number, email, company_rating) VALUES (@partner_type, @company_name, @company_address, @company_INN, @director_name, @phone_number, @company_email, @company_rating)", connection);
 
-                // Добавляем параметры
                 command.Parameters.AddWithValue("partner_type", partnerTypeId);
                 command.Parameters.AddWithValue("company_name", companyName);
                 command.Parameters.AddWithValue("company_address", companyAddress);
-                command.Parameters.AddWithValue("company_INN", companyINN); // Используем правильное имя
+                command.Parameters.AddWithValue("company_INN", companyINN); 
                 command.Parameters.AddWithValue("director_name", directorName);
                 command.Parameters.AddWithValue("phone_number", phoneNumber);
                 command.Parameters.AddWithValue("company_email", companyEmail);
-                command.Parameters.AddWithValue("company_rating", companyRating); // Убедитесь, что это правильное значение
+                command.Parameters.AddWithValue("company_rating", companyRating);
 
                 command.ExecuteNonQuery();
             }
