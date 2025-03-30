@@ -26,8 +26,8 @@ namespace Demo1
                 DataTable historyTable = new DataTable();
                 adapter.Fill(historyTable);
 
-                // Устанавливаем DataSource для вашего DataGridView
-                historyGridView.DataSource = historyTable; // Не забудьте сохранить ссылку на DataGridView
+                
+                historyGridView.DataSource = historyTable;
             }
         }
 
