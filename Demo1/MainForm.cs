@@ -26,30 +26,30 @@ namespace Demo1
                 var adapter = new NpgsqlDataAdapter(command);
                 DataTable partnersTable = new DataTable();
                 adapter.Fill(partnersTable);
-                // Здесь вы должны установить DataSource для вашего DataGridView
-                partnersGridView.DataSource = partnersTable; // Не забудьте сохранить ссылку на DataGridView
+            
+                partnersGridView.DataSource = partnersTable; 
             }
         }
 
         private void AddPartnerButton_Click(object sender, EventArgs e)
         {
-            // Открытие формы для добавления партнера
+            
             PartnerForm partnerForm = new PartnerForm();
             partnerForm.ShowDialog();
-            LoadPartners(); // Обновление списка после добавления
+            LoadPartners(); 
         }
 
         private void ViewHistoryButton_Click(object sender, EventArgs e)
         {
-            // Открытие формы для просмотра истории
+           
             HistoryForm historyForm = new HistoryForm();
             historyForm.ShowDialog();
         }
 
         private void EditButton_Click(object sender, EventArgs e)
         {
-            //int selectedPartnerId = GetSelectedPartnerId(); // Получите ID выбранного партнера
-            EditPartnerForm editForm = new EditPartnerForm(); //EditPartnerForm editForm = new EditPartnerForm(selectedPartnerId);
+            
+            EditPartnerForm editForm = new EditPartnerForm(); 
             editForm.ShowDialog();
         }
     }
